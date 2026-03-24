@@ -20,6 +20,40 @@ def clean_text(text: str) -> str:
     return text.strip()
 
 
+
+def clean_section_text(text: str) -> str:
+    """Post-process a parsed section: remove page markers, footnote refs, omission lines."""
+    import re as _re
+    # Remove page break markers inserted during parsing
+    text = _re.sub(r"\s*<<<PAGE_\d+>>>\s*", " ", text)
+
+    # Remove inline footnote reference numbers: e.g. 3[Pakistan] -> Pakistan
+    # Iterate to handle nesting like 2[3[text]]
+    for _ in range(5):
+        text = _re.sub(r"\d+\[([^\[\]]*)\]", r"", text)
+
+    # Remove omission placeholders like "* * * * *"
+    text = _re.sub(r"(\*\s*){2,}", "", text)
+
+    # Remove lines that are purely footnote citations
+    lines = text.splitlines()
+    cleaned = []
+    for line in lines:
+        s = line.strip()
+        if _re.match(r"^\d+[\. ]+(Ins|Sub|Rep|Omit|Added|Amended|Renumber|See|Vide)", s):
+            continue
+        cleaned.append(line)
+    text = "
+".join(cleaned)
+
+    text = _re.sub(r"[ 	]+", " ", text)
+    text = _re.sub(r"
+{3,}", "
+
+", text)
+
+    return text.strip()
+
 def get_docs():
     return load_docs()
 
@@ -174,6 +208,7 @@ def normalize_section_block(section_id: str, text: str) -> str:
     text = "\n".join(cleaned_lines)
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
+    text = clean_section_text(text)
 
     return text.strip()
 
