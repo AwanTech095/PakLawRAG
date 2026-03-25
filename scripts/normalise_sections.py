@@ -1,5 +1,8 @@
 import json
 import re
+from pathlib import Path
+
+_SCRIPTS = Path(__file__).parent
 
 term_map = {
     "qatl-i-amd": [
@@ -108,45 +111,49 @@ term_map = {
 }
 
 def clean_text(text):
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
+    # Fix 2: preserve newlines — only collapse horizontal whitespace
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 def find_keywords(text, term_map):
     found = []
+    seen = set()  # Fix minor: O(1) deduplication
     lower_text = text.lower()
     for term, meanings in term_map.items():
         pattern = r"\b" + re.escape(term.lower()) + r"\b"
         if re.search(pattern, lower_text):
-            found.append(term)
-            for m in meanings:
-                found.append(m)
-    seen = []
-    for item in found:
-        if item not in seen:
-            seen.append(item)
-    return seen
+            for item in [term] + meanings:
+                if item not in seen:
+                    seen.add(item)
+                    found.append(item)
+    return found
 
 def make_normalized_text(text, term_map):
-    normalized = text
+    # Fix 1: single-pass replacement so shorter terms can't re-match
+    # inside already-replaced text (e.g. "qatl" firing inside "qatl-i-amd (...)").
+    sorted_terms = sorted(term_map.items(), key=lambda x: len(x[0]), reverse=True)
 
-    for term, meanings in sorted(term_map.items(), key=lambda x: len(x[0]), reverse=True):
-        pattern = r"\b" + re.escape(term) + r"\b"
+    combined = re.compile(
+        "|".join(r"\b" + re.escape(term) + r"\b" for term, _ in sorted_terms),
+        re.IGNORECASE,
+    )
+    lookup = {term.lower(): meanings for term, meanings in sorted_terms}
 
-        replacement = term + " (" + ", ".join(meanings) + ")"
+    def replace(m):
+        matched = m.group(0)
+        meanings = lookup.get(matched.lower(), [])
+        return matched + " (" + ", ".join(meanings) + ")"
 
-        normalized = re.sub(
-            pattern,
-            replacement,
-            normalized,
-            flags=re.IGNORECASE
-        )
-
+    normalized = combined.sub(replace, text)
     normalized = clean_text(normalized)
     return normalized
 
 def main():
-    input_file = "../output/ppc_sections.json"
-    output_file = "../output/ppc_sections_normalized.json"
+    # Fix 3: use __file__-relative paths so script works from any directory.
+    # Write back to ppc_sections.json so build_vectorstore_sections.py picks it up.
+    input_file  = _SCRIPTS / "../output/ppc_sections.json"
+    output_file = _SCRIPTS / "../output/ppc_sections.json"
 
     with open(input_file, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -155,16 +162,17 @@ def main():
 
     for item in data:
         section_id = str(item.get("section_id", "")).strip()
-        text = item.get("text", "").strip()
+        # support both old {"text"} and new {"original_text"} schemas
+        text = (item.get("original_text") or item.get("text", "")).strip()
 
         normalized_text = make_normalized_text(text, term_map)
         keywords = find_keywords(text, term_map)
 
         new_item = {
-            "section_id": section_id,
-            "text": text,
+            "section_id":      section_id,
+            "text":            text,
             "normalized_text": normalized_text,
-            "keywords": keywords
+            "keywords":        keywords,
         }
 
         new_data.append(new_item)
