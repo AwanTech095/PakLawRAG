@@ -1,23 +1,32 @@
+from pathlib import Path
+from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_aws import BedrockEmbeddings
+
+_SCRIPTS = Path(__file__).parent
+load_dotenv(_SCRIPTS / "../.env")
+_STORE_PATH = str(_SCRIPTS / "../vectorstore_sections")
+
+_vectorstore = None
 
 
-def load_vectorstore():
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
-
-    vectorstore = FAISS.load_local(
-        "../vectorstore_sections",
-        embeddings,
-        allow_dangerous_deserialization=True
-    )
-
-    return vectorstore
+def get_vectorstore():
+    global _vectorstore
+    if _vectorstore is None:
+        embeddings = BedrockEmbeddings(
+            model_id="amazon.titan-embed-text-v2:0",
+            region_name="us-east-1",
+        )
+        _vectorstore = FAISS.load_local(
+            _STORE_PATH,
+            embeddings,
+            allow_dangerous_deserialization=True,
+        )
+    return _vectorstore
 
 
 def query_vectorstore(query, k=3):
-    vectorstore = load_vectorstore()
+    vectorstore = get_vectorstore()
 
     results = vectorstore.similarity_search(query, k=k)
 
@@ -30,7 +39,8 @@ def query_vectorstore(query, k=3):
         print(f"Section ID: {doc.metadata.get('section_id')}")
         print(f"Source: {doc.metadata.get('source')}")
         print("-" * 80)
-        print(doc.page_content[:1000])
+        display = doc.metadata.get("original_text") or doc.page_content
+        print(display[:1000])
         print()
 
 

@@ -5,109 +5,177 @@ from pathlib import Path
 _SCRIPTS = Path(__file__).parent
 
 term_map = {
+    # ── Intentional killing (murder) ──────────────────────────────────────────
     "qatl-i-amd": [
-        "intentional murder",
-        "intentional killing",
-        "murder",
-        "wilful murder",
-        "homicide"
+        "intentional murder", "murder", "wilful killing",
+        "intentional killing", "homicide"
     ],
     "qatl i amd": [
-        "intentional murder",
-        "intentional killing",
-        "murder",
-        "wilful murder",
-        "homicide"
+        "intentional murder", "murder", "wilful killing",
+        "intentional killing", "homicide"
     ],
     "qatl-e-amd": [
-        "intentional murder",
-        "intentional killing",
-        "murder",
-        "wilful murder",
-        "homicide"
+        "intentional murder", "murder", "wilful killing",
+        "intentional killing", "homicide"
     ],
-    "qatl": [
-        "killing",
-        "homicide"
-    ],
+
+    # ── Semi-intentional killing ───────────────────────────────────────────────
     "qatl shibh-i-amd": [
-        "quasi intentional homicide",
-        "similar to intentional killing",
-        "semi intentional killing"
+        "semi-intentional killing", "quasi-intentional homicide",
+        "unintentional death with harmful intent"
     ],
     "qatl shibh i amd": [
-        "quasi intentional homicide",
-        "similar to intentional killing",
-        "semi intentional killing"
+        "semi-intentional killing", "quasi-intentional homicide",
+        "unintentional death with harmful intent"
     ],
     "qatl-e-shibh-i-amd": [
-        "quasi intentional homicide",
-        "similar to intentional killing",
-        "semi intentional killing"
+        "semi-intentional killing", "quasi-intentional homicide",
+        "unintentional death with harmful intent"
     ],
+
+    # ── Accidental / culpable homicide ────────────────────────────────────────
     "qatl-i-khata": [
-        "accidental killing",
-        "unintentional killing",
-        "homicide by mistake",
-        "manslaughter by mistake"
+        "culpable homicide", "accidental killing", "manslaughter",
+        "unintentional killing", "negligent homicide", "homicide by mistake"
     ],
     "qatl i khata": [
-        "accidental killing",
-        "unintentional killing",
-        "homicide by mistake",
-        "manslaughter by mistake"
+        "culpable homicide", "accidental killing", "manslaughter",
+        "unintentional killing", "negligent homicide", "homicide by mistake"
     ],
     "qatl-e-khata": [
-        "accidental killing",
-        "unintentional killing",
-        "homicide by mistake",
-        "manslaughter by mistake"
+        "culpable homicide", "accidental killing", "manslaughter",
+        "unintentional killing", "negligent homicide", "homicide by mistake"
     ],
+
+    # ── Killing by indirect cause ─────────────────────────────────────────────
+    "qatl-bis-sabab": [
+        "constructive homicide", "killing by indirect cause",
+        "causing death indirectly"
+    ],
+    "qatl bis sabab": [
+        "constructive homicide", "killing by indirect cause",
+        "causing death indirectly"
+    ],
+
+    # ── Generic qatl (must come after all specific qatl-* entries) ────────────
+    "qatl": ["killing", "homicide", "murder"],
+
+    # ── Blood money / compensation ────────────────────────────────────────────
     "diyat": [
-        "blood money",
-        "financial compensation",
-        "compensation to legal heirs"
-    ],
-    "ta'zir": [
-        "discretionary punishment",
-        "judge determined punishment"
-    ],
-    "tazir": [
-        "discretionary punishment",
-        "judge determined punishment"
-    ],
-    "fasad-fil-arz": [
-        "grave societal harm",
-        "mischief on earth"
-    ],
-    "fasad fil arz": [
-        "grave societal harm",
-        "mischief on earth"
+        "blood money", "financial compensation for killing",
+        "compensation to legal heirs", "death compensation"
     ],
     "arsh": [
-        "specified compensation",
-        "legal compensation"
+        "injury compensation", "blood money for hurt",
+        "specified compensation", "financial remedy for bodily harm"
     ],
     "daman": [
-        "compensation for hurt",
-        "damages"
+        "compensation for hurt", "damages for injury",
+        "financial remedy"
     ],
-    "zirh": [
-        "hurt",
-        "injury"
+
+    # ── Retaliation ───────────────────────────────────────────────────────────
+    "qisas": [
+        "retaliation", "retribution", "eye for an eye",
+        "equal punishment", "right of retaliation"
     ],
-    "itlaf-i-udw": [
-        "destruction of organ",
-        "loss of organ"
-    ],
-    "itlaf-i-salahiyyat-i-udw": [
-        "impairment of organ function",
-        "loss of function of organ"
+
+    # ── Punishment types ──────────────────────────────────────────────────────
+    "ta'zir": ["discretionary punishment", "judge-determined punishment"],
+    "tazir":  ["discretionary punishment", "judge-determined punishment"],
+    "hadd":   ["fixed punishment", "mandatory punishment", "prescribed punishment"],
+
+    # ── Pardon / settlement ───────────────────────────────────────────────────
+    "afw":  ["pardon", "waiver of retaliation", "forgiveness by victim's family"],
+    "sulh": ["compounding", "settlement", "compromise", "mutual agreement"],
+
+    # ── Legal heir / guardian ─────────────────────────────────────────────────
+    "wali": ["legal heir", "legal guardian", "victim's next of kin"],
+
+    # ── Duress / coercion ─────────────────────────────────────────────────────
+    "ikrah-i-tam":   ["complete coercion", "absolute duress"],
+    "ikrah-i-naqis": ["incomplete coercion", "partial duress"],
+    "ikrah":         ["coercion", "duress", "compulsion"],
+
+    # ── Wound / hurt series ───────────────────────────────────────────────────
+    "shajjah": [
+        "head wound", "face wound", "injury to head or face",
+        "grievous hurt to head"
     ],
     "jurh": [
-        "wound",
-        "injury"
-    ]
+        "body wound", "bodily injury", "hurt", "physical injury"
+    ],
+    "jaifah": [
+        "penetrating wound", "deep body wound",
+        "wound penetrating body cavity"
+    ],
+    "ghayr-jaifah": [
+        "non-penetrating wound", "surface wound", "superficial injury"
+    ],
+    "ghayr jaifah": [
+        "non-penetrating wound", "surface wound", "superficial injury"
+    ],
+
+    # ── Organ destruction ─────────────────────────────────────────────────────
+    "itlaf-i-salahiyyat-i-udw": [
+        "permanent organ impairment", "loss of function of organ",
+        "grievous hurt impairing organ"
+    ],
+    "itlaf-i-udw": [
+        "dismemberment", "amputation", "loss of organ",
+        "severing of limb", "grievous hurt"
+    ],
+    "itlaf": ["destruction of body part", "loss of limb or organ"],
+
+    # ── Societal harm ─────────────────────────────────────────────────────────
+    "fasad-fil-arz": ["grave societal harm", "mischief on earth", "spreading disorder"],
+    "fasad fil arz": ["grave societal harm", "mischief on earth", "spreading disorder"],
+
+    # ── Shajjah sub-categories (specific head/face wound types) ─────────────
+    "damighah": [
+        "brain membrane wound", "wound reaching brain",
+        "most severe head wound"
+    ],
+    "munaqqilah": [
+        "bone-displacing wound", "wound causing bone to shift",
+        "severe head fracture"
+    ],
+    "hashimah": [
+        "bone-breaking wound", "fracture wound",
+        "head wound breaking bone"
+    ],
+    "mudihah": [
+        "bone-exposing wound", "wound exposing skull",
+        "head wound exposing bone"
+    ],
+
+    # ── Giving women as settlement / blood money ──────────────────────────────
+    "badal-i-sulh": [
+        "woman given in marriage as settlement",
+        "female as compensation", "giving girl as blood money"
+    ],
+    "wanni": [
+        "giving woman as blood price", "female given as compensation for killing",
+        "tribal settlement by marriage"
+    ],
+    "swara": [
+        "giving woman as blood price", "female given as compensation for killing",
+        "tribal settlement by marriage"
+    ],
+
+    # ── Abortion ──────────────────────────────────────────────────────────────
+    "isqat-i-janin": [
+        "late-stage abortion", "abortion of formed foetus",
+        "causing miscarriage of viable foetus"
+    ],
+    "isqat-i-hamal": [
+        "abortion", "miscarriage", "causing miscarriage",
+        "termination of pregnancy"
+    ],
+    "isqat": ["abortion", "miscarriage"],
+
+    # ── Hurt (legacy term kept for coverage) ──────────────────────────────────
+    "zirh": ["hurt", "injury", "bodily harm"],
 }
 
 def clean_text(text):

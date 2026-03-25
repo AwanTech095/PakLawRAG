@@ -1,11 +1,19 @@
 import json
 from pathlib import Path
+from dotenv import load_dotenv
 from langchain_core.documents import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_aws import BedrockEmbeddings
 from langchain_community.vectorstores import FAISS
 
+_SCRIPTS = Path(__file__).parent
+load_dotenv(_SCRIPTS / "../.env")
+_OUTPUT_PATH = _SCRIPTS / "../output/ppc_sections.json"
+_STORE_PATH = str(_SCRIPTS / "../vectorstore_sections")
 
-def load_sections(json_path="../output/ppc_sections.json"):
+
+def load_sections(json_path=None):
+    if json_path is None:
+        json_path = _OUTPUT_PATH
     with open(json_path, "r", encoding="utf-8") as f:
         sections = json.load(f)
     return sections
@@ -16,13 +24,16 @@ def convert_to_documents(sections):
 
     for sec in sections:
         section_id = sec["section_id"]
-        text = sec["text"]
+        original_text = sec["text"]
+        # embed normalized_text so English equivalents of Urdu terms are indexed
+        embed_text = sec.get("normalized_text") or original_text
 
         doc = Document(
-            page_content=text,
+            page_content=embed_text,
             metadata={
-                "section_id": section_id,
-                "source": f"PPC Section {section_id}"
+                "section_id":    section_id,
+                "source":        f"PPC Section {section_id}",
+                "original_text": original_text,
             }
         )
 
@@ -32,16 +43,15 @@ def convert_to_documents(sections):
 
 
 def build_vectorstore(documents):
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    embeddings = BedrockEmbeddings(
+        model_id="amazon.titan-embed-text-v2:0",
+        region_name="us-east-1",
     )
 
     vectorstore = FAISS.from_documents(documents, embeddings)
 
-    save_path = "../vectorstore_sections"
-    Path(save_path).mkdir(exist_ok=True)
-
-    vectorstore.save_local(save_path)
+    Path(_STORE_PATH).mkdir(exist_ok=True)
+    vectorstore.save_local(_STORE_PATH)
 
     return vectorstore
 
@@ -55,4 +65,4 @@ if __name__ == "__main__":
 
     vectorstore = build_vectorstore(documents)
 
-    print("Vector store created successfully at ../vectorstore_sections")
+    print(f"Vector store created successfully at {_STORE_PATH}")
