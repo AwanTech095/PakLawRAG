@@ -44,7 +44,7 @@ def query_vectorstore(query, k=3):
         for d in docs
     )
 
-    llm = ChatOllama(model="llama3.2:latest", temperature=0)
+    llm = ChatOllama(model="gemma3:4b", temperature=0)
     chain = PROMPT | llm
 
     print(f"\nQuery: {query}\n")
