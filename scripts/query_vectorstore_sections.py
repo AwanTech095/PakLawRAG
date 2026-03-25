@@ -1,10 +1,8 @@
 from pathlib import Path
-from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
-from langchain_aws import BedrockEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 _SCRIPTS = Path(__file__).parent
-load_dotenv(_SCRIPTS / "../.env")
 _STORE_PATH = str(_SCRIPTS / "../vectorstore_sections")
 
 _vectorstore = None
@@ -13,9 +11,8 @@ _vectorstore = None
 def get_vectorstore():
     global _vectorstore
     if _vectorstore is None:
-        embeddings = BedrockEmbeddings(
-            model_id="amazon.titan-embed-text-v2:0",
-            region_name="us-east-1",
+        embeddings = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
         )
         _vectorstore = FAISS.load_local(
             _STORE_PATH,

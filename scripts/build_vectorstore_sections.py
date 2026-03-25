@@ -1,12 +1,10 @@
 import json
 from pathlib import Path
-from dotenv import load_dotenv
 from langchain_core.documents import Document
-from langchain_aws import BedrockEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
 _SCRIPTS = Path(__file__).parent
-load_dotenv(_SCRIPTS / "../.env")
 _OUTPUT_PATH = _SCRIPTS / "../output/ppc_sections.json"
 _STORE_PATH = str(_SCRIPTS / "../vectorstore_sections")
 
@@ -43,9 +41,8 @@ def convert_to_documents(sections):
 
 
 def build_vectorstore(documents):
-    embeddings = BedrockEmbeddings(
-        model_id="amazon.titan-embed-text-v2:0",
-        region_name="us-east-1",
+    embeddings = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
     vectorstore = FAISS.from_documents(documents, embeddings)
