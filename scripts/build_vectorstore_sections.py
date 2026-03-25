@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from langchain_core.documents import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
 _SCRIPTS = Path(__file__).parent
@@ -42,7 +42,8 @@ def convert_to_documents(sections):
 
 def build_vectorstore(documents):
     embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+        model_name="BAAI/bge-large-en-v1.5",
+        encode_kwargs={"normalize_embeddings": True},
     )
 
     vectorstore = FAISS.from_documents(documents, embeddings)

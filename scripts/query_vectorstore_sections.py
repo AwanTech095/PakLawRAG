@@ -1,6 +1,6 @@
 from pathlib import Path
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 _SCRIPTS = Path(__file__).parent
 _STORE_PATH = str(_SCRIPTS / "../vectorstore_sections")
@@ -12,7 +12,8 @@ def get_vectorstore():
     global _vectorstore
     if _vectorstore is None:
         embeddings = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2"
+            model_name="BAAI/bge-large-en-v1.5",
+            encode_kwargs={"normalize_embeddings": True},
         )
         _vectorstore = FAISS.load_local(
             _STORE_PATH,
