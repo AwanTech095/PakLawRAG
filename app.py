@@ -2,20 +2,23 @@ import os
 import html
 from pathlib import Path
 
+import requests
 import streamlit as st
 from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_ollama import ChatOllama
 
 load_dotenv()
 
 ROOT = Path(__file__).parent
 STORE_PATH = str(ROOT / "vectorstore_sections")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "BAAI/bge-large-en-v1.5")
-LLM_MODEL = os.getenv("LLM_MODEL", "gemma3:4b")
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
+GITHUB_MODELS_BASE_URL = os.getenv(
+    "GITHUB_MODELS_BASE_URL",
+    "https://models.github.ai/inference",
+)
+LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-4.1-mini")
 
 PROMPT = ChatPromptTemplate.from_messages([
     ("system", """You are a legal assistant specializing in Pakistani law.
@@ -258,29 +261,60 @@ def load_vectorstore():
 
 
 @st.cache_resource(show_spinner=False)
-def load_llm():
-    kwargs = {
-        "model": LLM_MODEL,
-        "temperature": 0,
-        "num_predict": 360,
-    }
-    if OLLAMA_BASE_URL:
-        kwargs["base_url"] = OLLAMA_BASE_URL
-    return ChatOllama(**kwargs)
+def load_github_token():
+    token = os.getenv("GITHUB_TOKEN") or os.getenv("GITHUB_MODELS_TOKEN")
+    if token:
+        return token
+    try:
+        return st.secrets.get("GITHUB_TOKEN") or st.secrets.get("GITHUB_MODELS_TOKEN")
+    except Exception:
+        return None
 
 
-def get_answer(question: str, k: int):
+def retrieve_evidence(question: str, k: int):
     vectorstore = load_vectorstore()
-    docs_and_scores = vectorstore.similarity_search_with_score(question, k=k)
+    return vectorstore.similarity_search_with_score(question, k=k)
+
+
+def generate_answer(question: str, docs_and_scores):
     docs = [doc for doc, _score in docs_and_scores]
     context = "\n\n".join(
         f"[Section {doc.metadata['section_id']}]\n"
         f"{doc.metadata.get('original_text') or doc.page_content}"
         for doc in docs
     )
-    chain = PROMPT | load_llm()
-    response = chain.invoke({"context": context, "question": question})
-    return response.content.strip(), docs_and_scores
+    messages = PROMPT.format_messages(context=context, question=question)
+    payload = {
+        "model": LLM_MODEL,
+        "messages": [
+            {"role": message.type, "content": message.content}
+            for message in messages
+        ],
+        "temperature": 0,
+        "max_tokens": 420,
+    }
+    for message in payload["messages"]:
+        if message["role"] == "human":
+            message["role"] = "user"
+
+    token = load_github_token()
+    if not token:
+        raise RuntimeError(
+            "Missing GitHub Models token. Add GITHUB_TOKEN in Streamlit Secrets."
+        )
+
+    response = requests.post(
+        f"{GITHUB_MODELS_BASE_URL.rstrip('/')}/chat/completions",
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+        json=payload,
+        timeout=120,
+    )
+    response.raise_for_status()
+    data = response.json()
+    return data["choices"][0]["message"]["content"].strip()
 
 
 def render_sources(docs_and_scores):
@@ -292,7 +326,7 @@ def render_sources(docs_and_scores):
         safe_preview = html.escape(preview).replace("\n", "<br>")
         safe_source = html.escape(source)
 
-        with st.expander(f"Rank {index} · Section {section_id}", expanded=index == 1):
+        with st.expander(f"Rank {index} - Section {section_id}", expanded=index == 1):
             st.markdown(
                 f"""
                 <div class="source-card">
@@ -386,15 +420,16 @@ with right:
             st.session_state.query = clean_question
             with st.spinner("Retrieving sections and generating answer..."):
                 try:
-                    answer, sources = get_answer(clean_question, top_k)
-                    st.session_state.answer = answer
+                    sources = retrieve_evidence(clean_question, top_k)
                     st.session_state.sources = sources
+                    st.session_state.answer = generate_answer(clean_question, sources)
                 except Exception as exc:
                     st.session_state.answer = None
-                    st.session_state.sources = []
                     st.error(
-                        "The RAG pipeline could not complete. Check that Ollama is running "
-                        f"and the model `{LLM_MODEL}` is available."
+                        "Evidence retrieval may still work, but answer generation failed. "
+                        "Check that `GITHUB_TOKEN` is configured in Streamlit Secrets, "
+                        "has access to GitHub Models, and that the selected model "
+                        f"`{LLM_MODEL}` is available."
                     )
                     st.caption(str(exc))
 
