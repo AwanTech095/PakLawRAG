@@ -2,23 +2,19 @@ import os
 import html
 from pathlib import Path
 
-import requests
 import streamlit as st
 from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
 ROOT = Path(__file__).parent
 STORE_PATH = str(ROOT / "vectorstore_sections")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "BAAI/bge-large-en-v1.5")
-GITHUB_MODELS_BASE_URL = os.getenv(
-    "GITHUB_MODELS_BASE_URL",
-    "https://models.github.ai/inference",
-)
-LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-4.1-mini")
+LLM_MODEL = os.getenv("LLM_MODEL", "llama-3.1-8b-instant")
 
 PROMPT = ChatPromptTemplate.from_messages([
     ("system", """You are a legal assistant specializing in Pakistani law.
@@ -261,14 +257,27 @@ def load_vectorstore():
 
 
 @st.cache_resource(show_spinner=False)
-def load_github_token():
-    token = os.getenv("GITHUB_TOKEN") or os.getenv("GITHUB_MODELS_TOKEN")
-    if token:
-        return token
+def get_secret(name: str):
+    value = os.getenv(name)
+    if value:
+        return value
     try:
-        return st.secrets.get("GITHUB_TOKEN") or st.secrets.get("GITHUB_MODELS_TOKEN")
+        return st.secrets.get(name)
     except Exception:
         return None
+
+
+@st.cache_resource(show_spinner=False)
+def load_llm():
+    api_key = get_secret("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing GROQ_API_KEY. Add it in Streamlit Secrets.")
+    return ChatGroq(
+        model=LLM_MODEL,
+        temperature=0,
+        max_tokens=360,
+        api_key=api_key,
+    )
 
 
 def retrieve_evidence(question: str, k: int):
@@ -283,38 +292,9 @@ def generate_answer(question: str, docs_and_scores):
         f"{doc.metadata.get('original_text') or doc.page_content}"
         for doc in docs
     )
-    messages = PROMPT.format_messages(context=context, question=question)
-    payload = {
-        "model": LLM_MODEL,
-        "messages": [
-            {"role": message.type, "content": message.content}
-            for message in messages
-        ],
-        "temperature": 0,
-        "max_tokens": 420,
-    }
-    for message in payload["messages"]:
-        if message["role"] == "human":
-            message["role"] = "user"
-
-    token = load_github_token()
-    if not token:
-        raise RuntimeError(
-            "Missing GitHub Models token. Add GITHUB_TOKEN in Streamlit Secrets."
-        )
-
-    response = requests.post(
-        f"{GITHUB_MODELS_BASE_URL.rstrip('/')}/chat/completions",
-        headers={
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-        },
-        json=payload,
-        timeout=120,
-    )
-    response.raise_for_status()
-    data = response.json()
-    return data["choices"][0]["message"]["content"].strip()
+    chain = PROMPT | load_llm()
+    response = chain.invoke({"context": context, "question": question})
+    return response.content.strip()
 
 
 def render_sources(docs_and_scores):
@@ -427,8 +407,8 @@ with right:
                     st.session_state.answer = None
                     st.error(
                         "Evidence retrieval may still work, but answer generation failed. "
-                        "Check that `GITHUB_TOKEN` is configured in Streamlit Secrets, "
-                        "has access to GitHub Models, and that the selected model "
+                        "Check that `GROQ_API_KEY` is configured in Streamlit Secrets "
+                        "and that the selected Groq model "
                         f"`{LLM_MODEL}` is available."
                     )
                     st.caption(str(exc))

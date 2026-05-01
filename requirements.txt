@@ -3,6 +3,7 @@ langchain-community
 langchain-core
 langchain-huggingface
 langchain-ollama
+langchain-groq
 faiss-cpu
 sentence-transformers
 beautifulsoup4
