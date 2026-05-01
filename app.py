@@ -27,6 +27,16 @@ Relevant PPC Sections:
     ("human", "{question}"),
 ])
 
+QUERY_EXPANSIONS = {
+    "murder": "qatl-e-amd qatl-i-amd intentional murder intentional killing punishment Section 300 Section 302",
+    "intentional murder": "qatl-e-amd qatl-i-amd intentional killing punishment Section 300 Section 302",
+    "intentional killing": "qatl-e-amd qatl-i-amd murder punishment Section 300 Section 302",
+    "blood money": "diyat compensation for killing death compensation Section 323 Section 330",
+    "culpable homicide": "qatl-i-khata qatl-e-khata manslaughter accidental killing Section 318 Section 319",
+    "accidental killing": "qatl-i-khata qatl-bis-sabab unintentional killing Section 318 Section 321 Section 322",
+    "hurt": "shajjah jurh bodily injury grievous hurt Section 332 Section 337",
+}
+
 
 st.set_page_config(
     page_title="PakLawRAG",
@@ -280,9 +290,22 @@ def load_llm():
     )
 
 
+def expand_query_for_retrieval(question: str) -> str:
+    normalized = question.lower()
+    additions = [
+        expansion
+        for trigger, expansion in QUERY_EXPANSIONS.items()
+        if trigger in normalized
+    ]
+    if not additions:
+        return question
+    return question + "\n\nRelevant PPC terminology: " + " ".join(additions)
+
+
 def retrieve_evidence(question: str, k: int):
     vectorstore = load_vectorstore()
-    return vectorstore.similarity_search_with_score(question, k=k)
+    retrieval_query = expand_query_for_retrieval(question)
+    return vectorstore.similarity_search_with_score(retrieval_query, k=k)
 
 
 def generate_answer(question: str, docs_and_scores):
