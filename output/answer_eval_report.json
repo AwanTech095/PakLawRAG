@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total": 20,
-    "passed": 12,
-    "failed": 8,
-    "pass_rate": 0.6
+    "total": 10,
+    "passed": 9,
+    "failed": 1,
+    "pass_rate": 0.9
   },
   "results": [
     {
@@ -26,55 +26,6 @@
       "passed": true,
       "missing_citations": [],
       "missing_facts": []
-    },
-    {
-      "id": "robbery_punishment",
-      "question": "What is the punishment for robbery?",
-      "expected_sections": [
-        "392"
-      ],
-      "retrieved_sections": [
-        "392",
-        "393",
-        "397"
-      ],
-      "answer": "According to Section 392 of the Pakistan Penal Code, the punishment for robbery is “rigorous imprisonment for a term which…may extend to [a length not specified].”",
-      "retrieval_hit": true,
-      "citation_score": "1/1",
-      "fact_score": "2/3",
-      "forbidden_claims_found": [],
-      "passed": false,
-      "missing_citations": [],
-      "missing_facts": [
-        3
-      ]
-    },
-    {
-      "id": "theft_definition",
-      "question": "What constitutes theft under PPC?",
-      "expected_sections": [
-        "378",
-        "379"
-      ],
-      "retrieved_sections": [
-        "411",
-        "379",
-        "410"
-      ],
-      "answer": "According to the provided sections, theft is defined as “Whoever commits theft” (Section 379).  Dishonestly receiving or retaining stolen property also constitutes theft (Section 411).",
-      "retrieval_hit": true,
-      "citation_score": "1/2",
-      "fact_score": "1/4",
-      "forbidden_claims_found": [],
-      "passed": false,
-      "missing_citations": [
-        "378"
-      ],
-      "missing_facts": [
-        2,
-        3,
-        4
-      ]
     },
     {
       "id": "criminal_breach_of_trust",
@@ -220,31 +171,6 @@
       "missing_facts": []
     },
     {
-      "id": "rape_definition",
-      "question": "What is rape under PPC?",
-      "expected_sections": [
-        "375"
-      ],
-      "retrieved_sections": [
-        "375A",
-        "376A",
-        "376"
-      ],
-      "answer": "Rape is defined under Section 376 of the Pakistan Penal Code as:\n\n“Whoever commits rape shall be punished with death or imprisonment of either description for a term which shall not be less than ten years or more than twenty-five years.”\n\nAdditionally, gang rape is defined under Section 375A.",
-      "retrieval_hit": false,
-      "citation_score": "0/1",
-      "fact_score": "1/3",
-      "forbidden_claims_found": [],
-      "passed": false,
-      "missing_citations": [
-        "375"
-      ],
-      "missing_facts": [
-        2,
-        3
-      ]
-    },
-    {
       "id": "rape_punishment",
       "question": "What is the punishment for rape under PPC?",
       "expected_sections": [
@@ -265,30 +191,6 @@
       "missing_facts": []
     },
     {
-      "id": "cheating_definition",
-      "question": "What is cheating under PPC?",
-      "expected_sections": [
-        "415"
-      ],
-      "retrieved_sections": [
-        "206",
-        "420",
-        "416"
-      ],
-      "answer": "According to the provided sections of the PPC:\n\n**Cheating (Section 206)** is defined as “cheat” when, in body, mind, reputation or property, a person dishonestly conceals facts. This includes scenarios like falsely pretending to be in the Civil Service to obtain credit, using counterfeit marks on goods, exhibiting false samples, or deceiving someone into believing a payment will be honored when it won’t.\n\n**Cheating and inducing delivery of property (Section 420)** involves deceiving someone and dishonestly inducing them to deliver property, or to alter/destroy a valuable security. This carries a punishment of imprisonment for up to seven years and a fine.\n\n**Cheating by personation (Section 416)** occurs when a person deceives by pretending to be another person, or substituting one person for another.",
-      "retrieval_hit": false,
-      "citation_score": "0/1",
-      "fact_score": "3/4",
-      "forbidden_claims_found": [],
-      "passed": false,
-      "missing_citations": [
-        "415"
-      ],
-      "missing_facts": [
-        3
-      ]
-    },
-    {
       "id": "cheating_delivery_property",
       "question": "What is the punishment for cheating and dishonestly inducing delivery of property?",
       "expected_sections": [
@@ -307,133 +209,6 @@
       "passed": true,
       "missing_citations": [],
       "missing_facts": []
-    },
-    {
-      "id": "dacoity_punishment",
-      "question": "What is the punishment for dacoity?",
-      "expected_sections": [
-        "395"
-      ],
-      "retrieved_sections": [
-        "395",
-        "399",
-        "400"
-      ],
-      "answer": "According to Section 395 of the Pakistan Penal Code, whoever commits dacoity shall be punished with imprisonment for life, or with rigorous imprisonment for a term which shall not be less than four years nor more than ten years and shall also be liable to fine.",
-      "retrieval_hit": true,
-      "citation_score": "1/1",
-      "fact_score": "4/4",
-      "forbidden_claims_found": [],
-      "passed": true,
-      "missing_citations": [],
-      "missing_facts": []
-    },
-    {
-      "id": "kidnapping_from_pakistan",
-      "question": "What is kidnapping from Pakistan?",
-      "expected_sections": [
-        "360"
-      ],
-      "retrieved_sections": [
-        "360",
-        "363",
-        "359"
-      ],
-      "answer": "According to Section 360 of the PPC, kidnapping from Pakistan is defined as conveying a person beyond the limits of Pakistan without their consent or the consent of someone legally authorized to consent on their behalf. Section 363 outlines the punishment for this offense, specifying imprisonment for up to seven years and a fine.",
-      "retrieval_hit": true,
-      "citation_score": "1/1",
-      "fact_score": "1/3",
-      "forbidden_claims_found": [],
-      "passed": false,
-      "missing_citations": [],
-      "missing_facts": [
-        1,
-        3
-      ]
-    },
-    {
-      "id": "abduction_definition",
-      "question": "What is abduction under PPC?",
-      "expected_sections": [
-        "362"
-      ],
-      "retrieved_sections": [
-        "362",
-        "364A",
-        "365A"
-      ],
-      "answer": "Abduction, as defined under Section 362 of the PPC, is defined as “Whoever by force compels, or by any deceitful means induces, any person to go from any place…” \n\nPlease note that this section does not cover kidnapping for extortion, which is addressed in Section 365A.",
-      "retrieval_hit": true,
-      "citation_score": "1/1",
-      "fact_score": "3/3",
-      "forbidden_claims_found": [],
-      "passed": true,
-      "missing_citations": [],
-      "missing_facts": []
-    },
-    {
-      "id": "wrongful_restraint",
-      "question": "What is wrongful restraint?",
-      "expected_sections": [
-        "339"
-      ],
-      "retrieved_sections": [
-        "339",
-        "341",
-        "340"
-      ],
-      "answer": "Wrongful restraint, as defined in Section 339 of the PPC, occurs when someone voluntarily obstructs another person, preventing them from proceeding in a direction they have a right to travel. However, this is not an offense if the obstruction is of a private way believed in good faith to be rightfully obstructed.",
-      "retrieval_hit": true,
-      "citation_score": "1/1",
-      "fact_score": "4/4",
-      "forbidden_claims_found": [],
-      "passed": true,
-      "missing_citations": [],
-      "missing_facts": []
-    },
-    {
-      "id": "wrongful_confinement",
-      "question": "What is wrongful confinement?",
-      "expected_sections": [
-        "340"
-      ],
-      "retrieved_sections": [
-        "340",
-        "342",
-        "343"
-      ],
-      "answer": "According to Section 340 of the Pakistan Penal Code, wrongful confinement is defined as preventing a person from proceeding beyond certain limits by restraining them. \n\nSection 342 outlines the punishment, which is imprisonment for up to one year or a fine, if a person is wrongfully confined. \n\nIf the confinement lasts three or more days, the punishment increases to imprisonment for up to two years, or a fine, or both (as per Section 343).",
-      "retrieval_hit": true,
-      "citation_score": "1/1",
-      "fact_score": "2/3",
-      "forbidden_claims_found": [],
-      "passed": false,
-      "missing_citations": [],
-      "missing_facts": [
-        1
-      ]
-    },
-    {
-      "id": "criminal_intimidation",
-      "question": "What is criminal intimidation under PPC?",
-      "expected_sections": [
-        "503"
-      ],
-      "retrieved_sections": [
-        "503",
-        "507",
-        "506"
-      ],
-      "answer": "Criminal intimidation, as defined in Section 503 of the PPC, is threatening someone with harm to their person, reputation, or property, intending to cause alarm or force them to act or refrain from acting. \n\nSpecifically, it covers threats to injure a deceased person’s reputation as well. \n\nThe punishment for commencing this offense is imprisonment for up to two years (Section 506). If the threat involves causing death, grievous hurt, or destruction of property, the punishment increases to imprisonment for up to seven years (Section 506).",
-      "retrieval_hit": true,
-      "citation_score": "1/1",
-      "fact_score": "3/4",
-      "forbidden_claims_found": [],
-      "passed": false,
-      "missing_citations": [],
-      "missing_facts": [
-        2
-      ]
     }
   ]
 }

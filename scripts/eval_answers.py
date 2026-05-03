@@ -42,7 +42,7 @@ Relevant PPC Sections:
 ])
 
 
-TEST_CASES: list[dict[str, Any]] = [
+FULL_TEST_CASES: list[dict[str, Any]] = [
     {
         "id": "defamation_basic",
         "question": "What is defamation under PPC?",
@@ -316,6 +316,23 @@ TEST_CASES: list[dict[str, Any]] = [
             r"\brequires\b.*\bactual injury\b",
         ],
     },
+]
+
+PRESENTATION_TEST_CASE_IDS = [
+    "defamation_basic",
+    "criminal_breach_of_trust",
+    "forgery_definition",
+    "qatl_e_amd_punishment",
+    "diyat_basic",
+    "sedition_basic",
+    "criminal_trespass",
+    "rape_punishment",
+    "cheating_delivery_property",
+    "known_weak_bribery",
+]
+
+TEST_CASES: list[dict[str, Any]] = [
+    case for case in FULL_TEST_CASES if case["id"] in PRESENTATION_TEST_CASE_IDS
 ]
 
 

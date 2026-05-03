@@ -1,0 +1,278 @@
+{
+  "summary": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "faithfulness_accuracy": 1.0,
+    "answer_model": "gemma3:4b",
+    "judge_model": "llama3.2:latest"
+  },
+  "results": [
+    {
+      "id": "defamation_basic",
+      "question": "What is defamation under PPC?",
+      "expected_sections": [
+        "499",
+        "500"
+      ],
+      "retrieved_sections": [
+        "499",
+        "500",
+        "232"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "According to the Pakistan Penal Code (PPC):\n\nSection 499 defines defamation as making or publishing an imputation intending to harm a person’s reputation.\n\nSection 500 states that punishment for defamation is imprisonment (up to two years), a fine, or both.\n\nPlease note that these sections provide a basic framework, and the specific details of defamation cases can be complex.",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites relevant sections.",
+      "problem_claims": [
+        "Section 499 defines defamation as making or publishing an imputation intending to harm a person’s reputation.",
+        "Section 500 states that punishment for defamation is imprisonment (up to two years), a fine, or both."
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites relevant sections.\",\n  \"problem_claims\": [\"Section 499 defines defamation as making or publishing an imputation intending to harm a person’s reputation.\", \"Section 500 states that punishment for defamation is imprisonment (up to two years), a fine, or both.\"]\n}"
+    },
+    {
+      "id": "criminal_breach_of_trust",
+      "question": "Define criminal breach of trust.",
+      "expected_sections": [
+        "405"
+      ],
+      "retrieved_sections": [
+        "406",
+        "409",
+        "405"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "Criminal breach of trust is defined in Section 405 of the Pakistan Penal Code. It occurs when someone, entrusted with property, dishonestly misappropriates, converts to their own use, or wilfully allows another to do so, in violation of a law or contract regarding the discharge of a trust.",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites Section 405.",
+      "problem_claims": [
+        "Criminal breach of trust is defined in Section 405 of the Pakistan Penal Code."
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites Section 405.\",\n  \"problem_claims\": [\"Criminal breach of trust is defined in Section 405 of the Pakistan Penal Code.\"]\n}"
+    },
+    {
+      "id": "forgery_definition",
+      "question": "What is forgery under PPC?",
+      "expected_sections": [
+        "463"
+      ],
+      "retrieved_sections": [
+        "463",
+        "470",
+        "468"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "Forgery, as defined under the PPC, is the act of creating a false document – wholly or in part – with the intent to deceive or cause someone to part with property or enter into a contract (Section 463). A forged document itself is termed a “forged document” (Section 470). If forgery is done intending to use the document for cheating, the punishment is imprisonment for up to seven years and a fine (Section 468).",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites relevant sections.",
+      "problem_claims": [
+        "The definition of forgery includes intent to cause damage or injury.",
+        "A forged document is designated as such."
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites relevant sections.\",\n  \"problem_claims\": [\"The definition of forgery includes intent to cause damage or injury.\", \"A forged document is designated as such.\"]\n}"
+    },
+    {
+      "id": "qatl_e_amd_punishment",
+      "question": "What is the punishment for qatl-e-amd?",
+      "expected_sections": [
+        "302"
+      ],
+      "retrieved_sections": [
+        "324",
+        "302",
+        "316"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "According to the provided sections:\n\n*   **Section 302** states that “Whoever commits qatl-e-amd shall, subject to the provisions of this Chapter be: (a) punished with death as qisas; (b) punished with death or imprisonment for life as ta’zir having regard to the facts and circumstances of the case, if the proof in either of the forms specified in Section 304 is not available; or (c) punished with imprisonment of either description for a term which may extend to twenty-five years, where according to the injunctions of Islam the punishment of qisas is not applicable.”",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites relevant sections.",
+      "problem_claims": [
+        "Punishment for qatl-e-amd"
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites relevant sections.\",\n  \"problem_claims\": [\"Punishment for qatl-e-amd\"]\n}"
+    },
+    {
+      "id": "diyat_basic",
+      "question": "What is diyat?",
+      "expected_sections": [
+        "323",
+        "330"
+      ],
+      "retrieved_sections": [
+        "330",
+        "323",
+        "331"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "Diyat is the compensation for harm caused according to Islamic law. Its value is determined as outlined in Section 323, which states it must not be less than the value of thirty thousand six hundred and thirty grams of silver. The method of payment (lumpsum or installments) and consequences of non-payment are detailed in Sections 331.",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites relevant sections.",
+      "problem_claims": [
+        "Value of diyat",
+        "Method of payment"
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites relevant sections.\",\n  \"problem_claims\": [\"Value of diyat\", \"Method of payment\"]\n}"
+    },
+    {
+      "id": "sedition_basic",
+      "question": "What is sedition against the state?",
+      "expected_sections": [
+        "124A"
+      ],
+      "retrieved_sections": [
+        "124A",
+        "123A",
+        "152"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "According to Section 124A of the Pakistan Penal Code:\n\n“Whoever by words, either spoken or written, or by signs, or by visible representation, or otherwise, brings or attempts to bring into hatred or contempt, or excites or attempts to excite disaffection towards, the Federal or Provincial Government established by law shall be punished with imprisonment for life to which fine may be added, or with imprisonment which may extend to three years, to which fine may be added, or with fine.”\n\nEssentially, it’s the act of inciting feelings of disloyalty or antagonism towards the government.",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "The answer directly answers the question and correctly cites Section 124A.",
+      "problem_claims": [
+        "Essentially, it’s the act of inciting feelings of disloyalty or antagonism towards the government."
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"The answer directly answers the question and correctly cites Section 124A.\",\n  \"problem_claims\": [\"Essentially, it’s the act of inciting feelings of disloyalty or antagonism towards the government.\"]\n}"
+    },
+    {
+      "id": "criminal_trespass",
+      "question": "What is criminal trespass?",
+      "expected_sections": [
+        "441"
+      ],
+      "retrieved_sections": [
+        "441",
+        "442",
+        "447"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "Criminal trespass, as defined in Section 441 of the PPC, is: “Whoever enters into or upon property in the possession of another with intent to commit an offence or to intimidate, insult or annoy any person in possession of such property, or, having lawfully entered into or upon such property, unlawfully remains there with intent thereby to intimidate, insult or annoy any such person, or with intent to commit an offence.”",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites Section 441.",
+      "problem_claims": [],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites Section 441.\",\n  \"problem_claims\": []\n}"
+    },
+    {
+      "id": "known_weak_bribery",
+      "question": "Public servant taking bribe",
+      "expected_sections": [
+        "161"
+      ],
+      "retrieved_sections": [
+        "162",
+        "165",
+        "171B"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "Based on the provided sections, the relevant offenses pertaining to a public servant taking a bribe are:\n\n*   **Section 162:** This section covers accepting gratification as a motive to influence a public servant’s actions.\n*   **Section 165:** This section addresses accepting a valuable thing without consideration from someone involved in a transaction with a public servant.\n*   **Section 171B:** This section specifically deals with bribery, including accepting gratification for exercising electoral rights.\n\nPlease note that these sections outline the offenses, but do not detail the specific elements required to prove each case.",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites relevant sections.",
+      "problem_claims": [
+        "Section 162",
+        "Section 165",
+        "Section 171B"
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites relevant sections.\",\n  \"problem_claims\": [\"Section 162\", \"Section 165\", \"Section 171B\"]\n}"
+    },
+    {
+      "id": "rape_punishment",
+      "question": "What is the punishment for rape under PPC?",
+      "expected_sections": [
+        "376"
+      ],
+      "retrieved_sections": [
+        "376",
+        "375A",
+        "376A"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "Under the PPC, the punishment for rape is as follows:\n\n*   **Section 376:** Whoever commits rape shall be punished with death or imprisonment of either description for a term which shall not be less than ten years or more than twenty-five years.\n*   **Section 375A:** Where rape occurs by one or more persons acting in furtherance of a common intention, each person is guilty of gang rape and faces punishment of imprisonment for the remainder period of natural life or imprisonment for life and fine.",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "Answer directly answers the question and correctly cites relevant sections.",
+      "problem_claims": [
+        "Section 376",
+        "Section 375A"
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"Answer directly answers the question and correctly cites relevant sections.\",\n  \"problem_claims\": [\"Section 376\", \"Section 375A\"]\n}"
+    },
+    {
+      "id": "cheating_delivery_property",
+      "question": "What is the punishment for cheating and dishonestly inducing delivery of property?",
+      "expected_sections": [
+        "420"
+      ],
+      "retrieved_sections": [
+        "420",
+        "411",
+        "421"
+      ],
+      "answer_model": "gemma3:4b",
+      "judge_model": "llama3.2:latest",
+      "generated_answer": "According to Section 420 of the Pakistan Penal Code, the punishment for cheating and dishonestly inducing the delivery of property is imprisonment for a term which may extend to seven years, and also liable to fine.",
+      "judge_verdict": "PASS",
+      "contradiction_found": false,
+      "unsupported_major_claim": false,
+      "missing_key_fact": false,
+      "citation_correct": true,
+      "passed": true,
+      "judge_reason": "The answer directly answers the question and correctly cites Section 420.",
+      "problem_claims": [
+        "Punishment for cheating and dishonestly inducing delivery of property"
+      ],
+      "raw_judge_output": "{\n  \"verdict\": \"PASS\",\n  \"contradiction_found\": false,\n  \"unsupported_major_claim\": false,\n  \"missing_key_fact\": false,\n  \"citation_correct\": true,\n  \"reason\": \"The answer directly answers the question and correctly cites Section 420.\",\n  \"problem_claims\": [\"Punishment for cheating and dishonestly inducing delivery of property\"]\n}"
+    }
+  ]
+}
